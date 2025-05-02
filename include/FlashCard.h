@@ -10,8 +10,8 @@ struct FlashCard{
     string tag;
     float easyFactor;
     int interval;
-    int repitions;
-    int lastDateReview;
+    int repetitions;
+    string lastDateReview;
 };
 void InitializeDeck(); // khoi tao 1 deck moi hoan toan
 vector<FlashCard> LoadDeck(); // tai len bo the da luu
