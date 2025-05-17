@@ -1,4 +1,4 @@
-#include "../include/FlashCard.h"
+#include "../include/CardTree.h"
 #include "../include/nlohmann/json.hpp"
 using json = nlohmann::json;
 void toJson(json& j, FlashCard card) {
@@ -67,6 +67,7 @@ void AddCard() {
     deck.push_back(card);
     SaveDeck(deck);
 }
+// tim kiem + delete
 void DeleteCard() {
     vector<FlashCard> deck = LoadDeck();
     string keyword;
@@ -98,6 +99,107 @@ void EditCard(FlashCard& card, string choice){
     }    
 }
 
+int getHeight(CardNode *&node){
+    if(node == NULL) return 0;
+    return 1 + max(getHeight(node->pLeft), getHeight(node->pRight));
+}
+int balanceFactor(CardNode *&node){
+    return getHeight(node->pLeft) - getHeight(node->pRight);
+}
+CardNode *findMin(CardNode *node){
+    if(node == NULL) return node;
+    return findMin(node->pLeft);
+}
+CardNode *leftRotation(CardNode *node){
+    CardNode* alternode = node->pRight;
+    CardNode* tmpnode = alternode->pLeft;
+    alternode->pLeft = node;
+    node->pRight = tmpnode;
+    return alternode; 
+}
+CardNode *rightRotation(CardNode *node){
+    CardNode* alternode = node->pLeft;
+    CardNode* tmpnode = alternode->pRight;
+    alternode->pRight = node;
+    node->pLeft =   tmpnode;
+    return alternode;
+}
+CardNode *searchCard(CardNode* node, FlashCard &value){
+    if(node == NULL) return NULL;
+    if(node->fl.front > value.front){
+        searchCard(node->pLeft, value);
+    }
+    else if(node->fl.front < value.front){
+        searchCard(node->pRight, value);
+    }
+    else{
+        return node;
+    }
+}
+CardNode *insertCard(CardNode* node, FlashCard &value){
+    if(node == NULL) return new CardNode(value);
+    if(node->fl.front > value.front){
+        node->pLeft = insertCard(node->pLeft, value);
+    }
+    else if(node->fl.front < value.front){
+        node->pRight = insertCard(node->pRight, value);
+    }
+    int balance = balanceFactor(node);
+    if(balance > 1 && node->pLeft->fl.front > value.front){
+        return rightRotation(node);
+    }
+    else if(balance > 1 && node->pLeft->fl.front < value.front){
+        node->pLeft = leftRotation(node->pLeft);
+        return rightRotation(node);
+    }
+    else if(balance < -1 && node->pRight->fl.front < value.front){
+        return leftRotation(node);
+    }
+    else if(balance < -1 && node->pRight->fl.front > value.front){
+        node->pRight = rightRotation(node->pRight);
+        return leftRotation(node);
+    }
+    return node;
+}
+CardNode *deleteCard(CardNode* node, FlashCard &value) {
+    if (node == NULL) return node;
+
+    if (node->fl.front > value.front) {
+        node->pLeft = deleteCard(node->pLeft, value);
+    } else if (node->fl.front < value.front) {
+        node->pRight = deleteCard(node->pRight, value);
+    } else {
+        if (node->pLeft == NULL) {
+            CardNode* tmp = node->pRight;
+            delete node;
+            return tmp;
+        } else if (node->pRight == NULL) {
+            CardNode* tmp = node->pLeft;
+            delete node;
+            return tmp;
+        } else {
+            CardNode* tmp = findMin(node->pRight);
+            node->fl = tmp->fl;
+            node->pRight = deleteCard(node->pRight, tmp->fl);
+        }
+    }
+
+    int balance = balanceFactor(node);
+
+    if (balance > 1 && balanceFactor(node->pLeft) >= 0) {
+        return rightRotation(node);
+    } else if (balance > 1 && balanceFactor(node->pLeft) < 0) {
+        node->pLeft = leftRotation(node->pLeft);
+        return rightRotation(node);
+    } else if (balance < -1 && balanceFactor(node->pRight) <= 0) {
+        return leftRotation(node);
+    } else if (balance < -1 && balanceFactor(node->pRight) > 0) {
+        node->pRight = rightRotation(node->pRight);
+        return leftRotation(node);
+    }
+
+    return node;
+}
 //thuat toan lap lai ngan quang
 void SM2(FlashCard& card, int quality){
     // xu ly EF
@@ -126,63 +228,67 @@ void SM2(FlashCard& card, int quality){
         card.repetitions = 0;
         card.interval = 1;
     }
-}
+} 
 int main() {
+    CardTree tree;
     int choice;
     do {
-        cout << "FlashCard Menu:\n";
-        cout << "1. Add a new card\n";
+        cout << "CardTree Menu:\n";
+        cout << "1. Insert a card\n";
         cout << "2. Delete a card\n";
-        cout << "3. Edit a card\n";
-        cout << "4. Review cards\n";
+        cout << "3. Search for a card\n";
+        cout << "4. Display tree height\n";
         cout << "5. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
         cin.ignore(); // Clear the input buffer
 
         switch (choice) {
-            case 1:
-                AddCard();
+            case 1: {
+                FlashCard card;
+                cout << "Enter front: ";
+                getline(cin, card.front);
+                cout << "Enter back: ";
+                getline(cin, card.back);
+                cout << "Enter tag: ";
+                getline(cin, card.tag);
+                card.easyFactor = 2.5;
+                card.interval = 1;
+                card.repetitions = 0;
+                tree.root = insertCard(tree.root, card);
+                cout << "Card inserted successfully.\n";
                 break;
-            case 2:
-                DeleteCard();
+            }
+            case 2: {
+                string front;
+                cout << "Enter the front of the card to delete: ";
+                getline(cin, front);
+                FlashCard cardToDelete;
+                cardToDelete.front = front;
+                tree.root = deleteCard(tree.root, cardToDelete);
+                cout << "Card deleted successfully (if it existed).\n";
                 break;
+            }
             case 3: {
-                vector<FlashCard> deck = LoadDeck();
-                string keyword;
-                cout << "Enter the front of the card to edit: ";
-                getline(cin, keyword);
-                bool found = false;
-                for (auto& card : deck) {
-                    if (card.front == keyword) {
-                        found = true;
-                        string field;
-                        cout << "Enter the field to edit (front/back): ";
-                        cin >> field;
-                        cin.ignore(); // Clear the input buffer
-                        EditCard(card, field);
-                        SaveDeck(deck);
-                        cout << "Card updated successfully.\n";
-                        break;
-                    }
-                }
-                if (!found) {
+                string front;
+                cout << "Enter the front of the card to search: ";
+                getline(cin, front);
+                FlashCard cardToSearch;
+                cardToSearch.front = front;
+                CardNode* result = searchCard(tree.root, cardToSearch);
+                if (result) {
+                    cout << "Card found:\n";
+                    cout << "Front: " << result->fl.front << "\n";
+                    cout << "Back: " << result->fl.back << "\n";
+                    cout << "Tag: " << result->fl.tag << "\n";
+                } else {
                     cout << "Card not found.\n";
                 }
                 break;
             }
             case 4: {
-                vector<FlashCard> deck = LoadDeck();
-                for (auto& card : deck) {
-                    cout << "Front: " << card.front << "\n";
-                    cout << "Back: " << card.back << "\n";
-                    cout << "Rate your recall (0-5): ";
-                    int quality;
-                    cin >> quality;
-                    cin.ignore(); // Clear the input buffer
-                    SM2(card, quality);
-                }
-                SaveDeck(deck);
+                int height = getHeight(tree.root);
+                cout << "Tree height: " << height << "\n";
                 break;
             }
             case 5:
@@ -195,4 +301,10 @@ int main() {
 
     return 0;
 }
+// sort
+// search and delete
+// show time to review 
+// init
+// uu tien theo do kho 
+// neu rate la 1 thi cho tra loi lai lan nua
 //g++ FlashCard.cpp -o FlashCard -I../include

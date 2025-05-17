@@ -20,7 +20,6 @@ void DeleteCard();// xoa the
 
 
 
-
 void EditCard(FlashCard& card, string choice);// chinh sua lai the neu muon
 void SM2(FlashCard& card, int quality);// thuat toan lap lai ngat quang
 void SaveDeck(vector<FlashCard>& deck);// luu card
