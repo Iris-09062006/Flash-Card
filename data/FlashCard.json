@@ -1,20 +1,29 @@
 [
     {
-        "back": "4",
-        "easyFactor": 2.5999999046325684,
-        "front": "What is 2 + 2?",
-        "interval": 1,
-        "lastDateReview": "2024-10-27",
-        "repetitions": 1,
-        "tag": "Math"
+        "back": "Linh",
+        "easyFactor": 2.799999713897705,
+        "front": "Nam ",
+        "interval": 16,
+        "lastDateReview": "",
+        "repetitions": 3,
+        "tag": "Nyc"
     },
     {
-        "back": "Paris",
-        "easyFactor": 2.8999998569488525,
-        "front": "What is the capital of France?",
-        "interval": 14,
-        "lastDateReview": "2024-10-22",
+        "back": "Mai",
+        "easyFactor": 2.859999895095825,
+        "front": "Nam",
+        "interval": 17,
+        "lastDateReview": "",
         "repetitions": 3,
-        "tag": "Geography"
+        "tag": "Nyc"
+    },
+    {
+        "back": "",
+        "easyFactor": 2.1599998474121094,
+        "front": "Nam",
+        "interval": 6,
+        "lastDateReview": "",
+        "repetitions": 2,
+        "tag": "Nyc"
     }
 ]
