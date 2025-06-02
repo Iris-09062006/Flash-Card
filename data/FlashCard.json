@@ -1,0 +1,22 @@
+[
+    {
+        "back": "4",
+        "easyFactor": 2.5999999046325684,
+        "front": "What is 2 + 2?",
+        "interval": 1,
+        "lastDateReview": "2024-10-27",
+        "repetitions": 1,
+        "tag": "Math",
+        "isBack": "false"
+    },
+    {
+        "back": "Paris",
+        "easyFactor": 2.8999998569488525,
+        "front": "What is the capital of France?",
+        "interval": 14,
+        "lastDateReview": "2024-10-22",
+        "repetitions": 3,
+        "tag": "Geography",
+        "isBack": "false"
+    }
+]
