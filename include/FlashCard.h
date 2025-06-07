@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 // Created by chill code on 28/04/2025,
 // Last Modified: 09:11 PM 01/06/2025 
@@ -5,6 +6,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <windows.h>
+=======
+>>>>>>> cb672f573b6bcec0f193885a5cc1979d8b8ab6d5
 #include<iostream>
 #include<vector>
 #include<string>
@@ -19,12 +22,16 @@ struct FlashCard{
     int interval;
     int repetitions;
     string lastDateReview;
+<<<<<<< HEAD
     bool isBack = false;
+=======
+>>>>>>> cb672f573b6bcec0f193885a5cc1979d8b8ab6d5
 };
 void InitializeDeck(); // khoi tao 1 deck moi hoan toan
 vector<FlashCard> LoadDeck(); // tai len bo the da luu
 void AddCard(); // them the vao bo the
 void DeleteCard();// xoa the 
+<<<<<<< HEAD
 void EditCard(FlashCard& card, string choice);// chinh sua lai the neu muon
 void SM2(FlashCard& card, int quality);// thuat toan lap lai ngat quang
 void SaveDeck(vector<FlashCard>& deck);// luu card
@@ -249,3 +256,11 @@ void FlashCardDisplay(sf::RenderWindow &window, appState &currentState,
                       DeckBox &Deck, CardBox &cardDefault);
 void handleEvents(sf::RenderWindow &window, appState &currentState,
                   vector<DeckBox> &DeckBoxes, CardBox &cardBox);
+=======
+
+
+
+void EditCard(FlashCard& card, string choice);// chinh sua lai the neu muon
+void SM2(FlashCard& card, int quality);// thuat toan lap lai ngat quang
+void SaveDeck(vector<FlashCard>& deck);// luu card
+>>>>>>> cb672f573b6bcec0f193885a5cc1979d8b8ab6d5

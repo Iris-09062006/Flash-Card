@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "back": "4",
         "easyFactor": 2.5999999046325684,
         "front": "What is 2 + 2?",
@@ -18,5 +19,32 @@
         "repetitions": 3,
         "tag": "Geography",
         "isBack": "false"
+=======
+        "back": "Linh",
+        "easyFactor": 2.799999713897705,
+        "front": "Nam ",
+        "interval": 16,
+        "lastDateReview": "",
+        "repetitions": 3,
+        "tag": "Nyc"
+    },
+    {
+        "back": "Mai",
+        "easyFactor": 2.859999895095825,
+        "front": "Nam",
+        "interval": 17,
+        "lastDateReview": "",
+        "repetitions": 3,
+        "tag": "Nyc"
+    },
+    {
+        "back": "",
+        "easyFactor": 2.1599998474121094,
+        "front": "Nam",
+        "interval": 6,
+        "lastDateReview": "",
+        "repetitions": 2,
+        "tag": "Nyc"
+>>>>>>> cb672f573b6bcec0f193885a5cc1979d8b8ab6d5
     }
 ]
